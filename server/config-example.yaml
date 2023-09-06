@@ -1,0 +1,28 @@
+#数据库配置
+mysql:
+  username:
+  password:
+  host:
+  port: 3306
+  db-name:
+  max-open-conn: 100
+  max-idle-conn: 20
+
+#日志配置
+zap:
+  level: info
+  director: log
+  log-in-console: true
+
+#jwt配置
+jwt:
+  signing-key:
+  issuer:
+  #以秒为单位
+  expires-time: 3600
+
+#system配置
+system:
+  addr: 8888
+  admin-account: admin
+  admin-password:
