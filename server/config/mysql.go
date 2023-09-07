@@ -1,7 +1,5 @@
 package config
 
-// MysqlConfig //
-// 数据库配置
 type MysqlConfig struct {
 	Port        string `mapstructure:"port"`
 	Username    string `mapstructure:"username"`
@@ -13,7 +11,7 @@ type MysqlConfig struct {
 }
 
 // Dsn //
-// 获取数据库dsn
+// get mysql dsn
 func (mysql *MysqlConfig) Dsn() string {
 	return mysql.Username + ":" + mysql.Password + "@tcp(" + mysql.Host + ":" + mysql.Port + ")/" + mysql.DbName + "?charset=utf8&parseTime=true"
 }
