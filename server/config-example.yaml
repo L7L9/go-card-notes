@@ -26,3 +26,4 @@ system:
   addr: 8888
   admin-account: admin
   admin-password:
+  router-prefix: ""
