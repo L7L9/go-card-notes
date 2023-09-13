@@ -14,6 +14,7 @@ type User struct {
 	HeadImg       string `gorm:"default:0;NOT NULL;comment:'头像图片'"` // TODO
 	Phone         string `gorm:"default:'';NOT NULL;comment:'手机号'"`
 	Email         string `gorm:"default:'';NOT NULL;comment:'邮箱'"`
+	Points        int    `gorm:"default:0;NOT NULL;comment:'用户积分'"`
 	FollowCount   int    `gorm:"default:0;NOT NULL;comment:'关注数'"`
 	FollowedCount int    `gorm:"default:0;NOT NULL;comment:'粉丝数'"`
 	Introduction  string `gorm:"default:'';NOT NULL;comment:'简介'"`
