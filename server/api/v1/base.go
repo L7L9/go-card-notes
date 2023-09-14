@@ -5,6 +5,7 @@ import (
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
 	"lqlzzz/go-card-notes/model/schema"
+	"lqlzzz/go-card-notes/utils"
 )
 
 type BaseApi struct{}
@@ -19,14 +20,14 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 		return
 	}
 
-	user := schema.User{
+	user := &schema.User{
 		Username: signUpRequest.Username,
 		Password: signUpRequest.Nickname,
 		Nickname: signUpRequest.Nickname,
 		Phone:    signUpRequest.Phone,
 	}
 	if err = baseService.SignUp(user); err != nil {
-		response.FailedWithMsg(c, "注册失败，请稍后")
+		response.FailedWithMsg(c, err.Error())
 	}
 	response.SuccessWithMsg(c, "登录成功")
 }
@@ -34,5 +35,32 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 // SignIn //
 // 登录api
 func (api *BaseApi) SignIn(c *gin.Context) {
+	var signInRequest request.SignInRequest
+	err := c.ShouldBind(&signInRequest)
+	if err != nil {
+		response.FailedWithMsg(c, err.Error())
+		return
+	}
 
+	user := &schema.User{
+		Username: signInRequest.Username,
+		Password: signInRequest.Password,
+	}
+
+	if user, err = baseService.SignIn(user); err != nil {
+		response.FailedWithMsg(c, err.Error())
+	}
+
+	// 签发token
+	jwt := utils.NewJwt()
+	claims := jwt.GenerateClaims(user.UUID, user.ID, user.BaseRoleID)
+	token, err := jwt.GenerateToken(claims)
+	if err != nil {
+		response.FailedWithMsg(c, "获取token失败")
+		return
+	}
+	response.SuccessWithDetail(c, "登陆成功", response.SignInResponse{
+		User:  *user,
+		Token: token,
+	})
 }
