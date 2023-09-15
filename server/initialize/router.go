@@ -3,6 +3,7 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"lqlzzz/go-card-notes/global"
+	"lqlzzz/go-card-notes/middleware"
 	"lqlzzz/go-card-notes/router"
 )
 
@@ -19,7 +20,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	// 要做鉴权的路由组
-	privateGroup := r.Group(global.GCN_CONFIG.System.RouterPrefix)
+	privateGroup := r.Group(global.GCN_CONFIG.System.RouterPrefix, middleware.JwtAuth(), middleware.CasbinAuth())
 	{
 		// 初始化路由
 		router.RouterGroupOuter.UserRouter.Initialize(privateGroup)
