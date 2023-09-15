@@ -19,10 +19,11 @@ func InitRouter() *gin.Engine {
 	}
 
 	// 要做鉴权的路由组
-	//privateGroup := router.Group(global.GCN_CONFIG.System.RouterPrefix)
-	//{
-	//
-	//}
+	privateGroup := r.Group(global.GCN_CONFIG.System.RouterPrefix)
+	{
+		// 初始化路由
+		router.RouterGroupOuter.UserRouter.Initialize(privateGroup)
+	}
 
 	return r
 }
