@@ -14,10 +14,10 @@ var casbinService = service.ServiceOuter.CasbinService
 // 权限控制中间件
 func CasbinAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// 通过tokenID获取claims
-		userClaims := utils.GetUserInfo(c)
+		// 获取用户roleID
+		roleID := utils.GetUserRoleID(c)
 		// 初始化sub,obj,act
-		sub := strconv.Itoa(int(userClaims.RoleID))
+		sub := strconv.Itoa(int(roleID))
 		obj := c.Request.URL.Path
 		act := c.Request.Method
 

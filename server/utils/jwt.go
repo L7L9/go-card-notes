@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
+	uuid "github.com/satori/go.uuid"
 	"lqlzzz/go-card-notes/global"
 	"time"
 )
@@ -14,6 +15,7 @@ type Jwt struct {
 // SystemClaims //
 // 存于token令牌中的数据
 type SystemClaims struct {
+	UUID   uuid.UUID
 	UserID uint
 	RoleID uint
 	jwt.RegisteredClaims
@@ -27,10 +29,11 @@ func NewJwt() *Jwt {
 
 // GenerateClaims //
 // 生成Claims
-func (j *Jwt) GenerateClaims(userId, roleId uint) *SystemClaims {
+func (j *Jwt) GenerateClaims(uuid uuid.UUID, userId uint, roleId uint) *SystemClaims {
 	// 计算超时时间
 	duration := time.Second * time.Duration(global.GCN_CONFIG.Jwt.ExpiresTime)
 	return &SystemClaims{
+		UUID:   uuid,
 		UserID: userId,
 		RoleID: roleId,
 		RegisteredClaims: jwt.RegisteredClaims{
