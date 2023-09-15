@@ -15,3 +15,10 @@ type SignInRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+// ChangePasswordRequest //
+// 修改密码请求
+type ChangePasswordRequest struct {
+	Password    string `json:"password" binding:"required"`
+	NewPassword string `json:"newPassword" binding:"required"`
+}
