@@ -7,8 +7,7 @@ import (
 	"lqlzzz/go-card-notes/utils"
 )
 
-type UserService struct {
-}
+type UserService struct{}
 
 // ChangePassword //
 // 修改密码
@@ -28,4 +27,22 @@ func (service *UserService) ChangePassword(user *schema.User, newPassword string
 	}
 	tempUser.Password = utils.HashEncrypt(newPassword)
 	return global.GCN_DB.Save(&tempUser).Error
+}
+
+// UpdateUserInformation //
+// 修改用户信息
+func (service *UserService) UpdateUserInformation(user *schema.User) (*schema.User, error) {
+	var temp schema.User
+	err := global.GCN_DB.Where("id = ?", user.ID).First(user).Error
+	if err != nil {
+		return nil, err
+	}
+	temp.Nickname = user.Nickname
+	temp.Email = user.Email
+	temp.Phone = user.Phone
+	temp.HeadImg = user.HeadImg
+	if err = global.GCN_DB.Save(&temp).Error; err != nil {
+		return nil, err
+	}
+	return &temp, nil
 }
