@@ -29,7 +29,7 @@ func main() {
 			}
 		}(db)
 	}
-	// TODO
+
 	port := fmt.Sprintf(":%d", global.GCN_CONFIG.System.Addr)
 	if err := router.Run(port); err != nil {
 		global.GCN_LOGGER.Error("服务启动失败", zap.Error(err))
