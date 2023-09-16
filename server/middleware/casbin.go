@@ -2,10 +2,12 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"lqlzzz/go-card-notes/global"
 	"lqlzzz/go-card-notes/model/common/response"
 	"lqlzzz/go-card-notes/service"
 	"lqlzzz/go-card-notes/utils"
 	"strconv"
+	"strings"
 )
 
 var casbinService = service.ServiceOuter.CasbinService
@@ -18,7 +20,9 @@ func CasbinAuth() gin.HandlerFunc {
 		roleID := utils.GetUserRoleID(c)
 		// 初始化sub,obj,act
 		sub := strconv.Itoa(int(roleID))
-		obj := c.Request.URL.Path
+		withPrefixObj := c.Request.URL.Path
+		// 处理路径
+		obj := strings.TrimPrefix(withPrefixObj, global.GCN_CONFIG.System.RouterPrefix)
 		act := c.Request.Method
 
 		// 获取鉴权的casbin
