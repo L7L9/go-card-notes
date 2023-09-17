@@ -17,6 +17,7 @@ type User struct {
 	Phone         string    `json:"phone" gorm:"default:'';NOT NULL;comment:'手机号'"`
 	Email         string    `json:"email" gorm:"default:'';NOT NULL;comment:'邮箱'"`
 	Points        int       `json:"points" gorm:"default:0;NOT NULL;comment:'用户积分'"`
+	NoteCount     int       `json:"noteCount" gorm:"default:0;NOT NULL;comment:'用户笔记数'"`
 	FollowCount   int       `json:"followCount" gorm:"default:0;NOT NULL;comment:'关注数'"`
 	FollowedCount int       `json:"followedCount" gorm:"default:0;NOT NULL;comment:'粉丝数'"`
 	Introduction  string    `json:"introduction" gorm:"default:'';NOT NULL;comment:'简介'"`
