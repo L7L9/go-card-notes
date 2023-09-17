@@ -5,4 +5,5 @@ type Config struct {
 	Zap    ZapConfig    `mapstructure:"zap"`
 	Jwt    JwtConfig    `mapstructure:"jwt"`
 	System SystemConfig `mapstructure:"system"`
+	Ipfs   IpfsConfig   `mapstructure:"ipfs"`
 }

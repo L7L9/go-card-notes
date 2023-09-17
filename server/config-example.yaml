@@ -27,3 +27,8 @@ system:
   admin-account: admin
   admin-password:
   router-prefix: ""
+
+#ipfs配置
+ipfs:
+  host:
+  port:
