@@ -6,7 +6,7 @@ import "gorm.io/gorm"
 // gcn_role table
 type Role struct {
 	gorm.Model
-	Name string
+	Name string `gorm:"NOT NULL;comment:'角色名字'"`
 }
 
 func (Role) TableName() string {
