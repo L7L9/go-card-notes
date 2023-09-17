@@ -22,3 +22,12 @@ type ChangePasswordRequest struct {
 	Password    string `json:"password" binding:"required"`
 	NewPassword string `json:"newPassword" binding:"required"`
 }
+
+// UpdateUserInformationRequest //
+// 修改用户信息请求
+type UpdateUserInformationRequest struct {
+	Nickname string `json:"nickname"`
+	HeadImg  string `json:"headImg"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
+}
