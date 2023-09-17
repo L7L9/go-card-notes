@@ -13,6 +13,8 @@ func InitDbTable() {
 	err := global.GCN_DB.AutoMigrate(
 		&schema.User{},
 		&schema.Role{},
+		&schema.Note{},
+		&schema.Tag{},
 	)
 
 	if err != nil {
