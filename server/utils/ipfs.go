@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	shell "github.com/ipfs/go-ipfs-api"
+	"go.uber.org/zap"
 	"io"
 	"lqlzzz/go-card-notes/global"
 	"mime/multipart"
@@ -17,11 +18,12 @@ func InitIpfsClient() {
 	ipfsClient = shell.NewShell(addr)
 }
 
-// IpfsAdd //
+// IpfsUpload //
 // 向ipfs中添加文件
-func IpfsAdd(file multipart.File) (string, error) {
+func IpfsUpload(file multipart.File) (string, error) {
 	cid, err := ipfsClient.Add(file)
 	if err != nil {
+		global.GCN_LOGGER.Error("ipfs上传文件失败: ", zap.Error(err))
 		return "", err
 	}
 	return cid, nil
@@ -32,6 +34,7 @@ func IpfsAdd(file multipart.File) (string, error) {
 func IpfsGet(cid string) (io.ReadCloser, error) {
 	readCloser, err := ipfsClient.Cat(cid)
 	if err != nil {
+		global.GCN_LOGGER.Error("ipfs获取文件失败: ", zap.Error(err))
 		return nil, err
 	}
 	return readCloser, nil
