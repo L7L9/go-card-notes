@@ -63,3 +63,18 @@ func GetUserRoleID(c *gin.Context) uint {
 		return userInfo.RoleID
 	}
 }
+
+// GetUsername //
+// 获取用户角色id
+func GetUsername(c *gin.Context) string {
+	if claims, isExist := c.Get("claims"); !isExist {
+		if cl, err := GetUserInfo(c); err != nil {
+			return ""
+		} else {
+			return cl.Username
+		}
+	} else {
+		userInfo := claims.(*SystemClaims)
+		return userInfo.Username
+	}
+}
