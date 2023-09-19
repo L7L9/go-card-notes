@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap"
 	"lqlzzz/go-card-notes/global"
 	"lqlzzz/go-card-notes/initialize"
+	"lqlzzz/go-card-notes/utils"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 	global.GCN_DB = initialize.InitGorm()
 	// 初始化路由
 	router := initialize.InitRouter()
+	utils.InitIpfsClient()
 	if global.GCN_DB != nil {
 		// 初始化表
 		initialize.InitDbTable()
