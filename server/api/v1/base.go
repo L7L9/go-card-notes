@@ -53,7 +53,7 @@ func (api *BaseApi) SignIn(c *gin.Context) {
 
 	// 签发token
 	jwt := utils.NewJwt()
-	claims := jwt.GenerateClaims(user.UUID, user.ID, user.BaseRoleID)
+	claims := jwt.GenerateClaims(user.UUID, user.ID, user.BaseRoleID, user.Username)
 	token, err := jwt.GenerateToken(claims)
 	if err != nil {
 		response.FailedWithMsg(c, "获取token失败")
