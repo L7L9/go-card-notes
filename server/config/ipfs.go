@@ -4,5 +4,5 @@ package config
 // ipfs配置
 type IpfsConfig struct {
 	Host string `mapstructure:"host"`
-	Port string `mapstructure:"post"`
+	Port int    `mapstructure:"post"`
 }
