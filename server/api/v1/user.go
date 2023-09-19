@@ -3,9 +3,9 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
-	"lqlzzz/go-card-notes/model/schema"
 	"lqlzzz/go-card-notes/utils"
 )
 
@@ -24,7 +24,7 @@ func (api *UserApi) ChangePassword(c *gin.Context) {
 	}
 	// 获取用户id
 	userID := utils.GetUserID(c)
-	user := &schema.User{Model: gorm.Model{ID: userID}, Password: changePasswordRequest.Password}
+	user := &model.User{Model: gorm.Model{ID: userID}, Password: changePasswordRequest.Password}
 	if err = userService.ChangePassword(user, changePasswordRequest.NewPassword); err != nil {
 		response.FailedWithMsg(c, err.Error())
 		return
@@ -44,7 +44,7 @@ func (api *UserApi) UpdateUserInformation(c *gin.Context) {
 	}
 
 	userID := utils.GetUserID(c)
-	user := &schema.User{
+	user := &model.User{
 		Model:    gorm.Model{ID: userID},
 		Nickname: updateUserInformationRequest.Nickname,
 		HeadImg:  updateUserInformationRequest.HeadImg,

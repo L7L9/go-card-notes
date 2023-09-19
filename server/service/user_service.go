@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 	"lqlzzz/go-card-notes/global"
-	"lqlzzz/go-card-notes/model/schema"
+	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/utils"
 )
 
@@ -11,9 +11,9 @@ type UserService struct{}
 
 // ChangePassword //
 // 修改密码
-func (service *UserService) ChangePassword(user *schema.User, newPassword string) error {
+func (service *UserService) ChangePassword(user *model.User, newPassword string) error {
 	// 查询用户
-	var tempUser schema.User
+	var tempUser model.User
 	if err := global.GCN_DB.Where("id = ?", user.ID).First(&tempUser).Error; err != nil {
 		return err
 	}
@@ -31,8 +31,8 @@ func (service *UserService) ChangePassword(user *schema.User, newPassword string
 
 // UpdateUserInformation //
 // 修改用户信息
-func (service *UserService) UpdateUserInformation(user *schema.User) (*schema.User, error) {
-	var temp schema.User
+func (service *UserService) UpdateUserInformation(user *model.User) (*model.User, error) {
+	var temp model.User
 	err := global.GCN_DB.Where("id = ?", user.ID).First(user).Error
 	if err != nil {
 		return nil, err

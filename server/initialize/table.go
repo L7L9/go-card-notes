@@ -4,17 +4,17 @@ import (
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"go.uber.org/zap"
 	"lqlzzz/go-card-notes/global"
-	"lqlzzz/go-card-notes/model/schema"
+	"lqlzzz/go-card-notes/model"
 )
 
 // InitDbTable //
 // 初始化数据库中的表
 func InitDbTable() {
 	err := global.GCN_DB.AutoMigrate(
-		&schema.User{},
-		&schema.Role{},
-		&schema.Note{},
-		&schema.Tag{},
+		&model.User{},
+		&model.Role{},
+		&model.Note{},
+		&model.Tag{},
 	)
 
 	if err != nil {

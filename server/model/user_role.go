@@ -1,4 +1,4 @@
-package schema
+package model
 
 // UserRole //
 // gcn_user_role table

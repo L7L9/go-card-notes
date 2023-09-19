@@ -2,9 +2,9 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
-	"lqlzzz/go-card-notes/model/schema"
 	"lqlzzz/go-card-notes/utils"
 )
 
@@ -20,7 +20,7 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 		return
 	}
 
-	user := &schema.User{
+	user := &model.User{
 		Username: signUpRequest.Username,
 		Password: signUpRequest.Nickname,
 		Nickname: signUpRequest.Nickname,
@@ -42,7 +42,7 @@ func (api *BaseApi) SignIn(c *gin.Context) {
 		return
 	}
 
-	user := &schema.User{
+	user := &model.User{
 		Username: signInRequest.Username,
 		Password: signInRequest.Password,
 	}
