@@ -15,4 +15,5 @@ var ApiOuter = new(ApiGroup)
 var (
 	baseService = service.ServiceOuter.BaseService
 	userService = service.ServiceOuter.UserService
+	noteService = service.ServiceOuter.NoteService
 )
