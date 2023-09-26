@@ -17,5 +17,6 @@ func (router *UserRouter) Initialize(fatherRouter *gin.RouterGroup) {
 	{
 		userRouter.PUT("/changePassword/", userApi.ChangePassword)
 		userRouter.PUT("/updateUserInformation/", userApi.UpdateUserInformation)
+		userRouter.POST("/operateFollow/", userApi.FollowOrNot)
 	}
 }
