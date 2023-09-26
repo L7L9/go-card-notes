@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"lqlzzz/go-card-notes/global"
 	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/utils"
@@ -45,4 +46,49 @@ func (service *UserService) UpdateUserInformation(user *model.User) (*model.User
 		return nil, err
 	}
 	return &temp, nil
+}
+
+func (service *UserService) Follow(userFollow *model.UserFollow) error {
+	// 开启事务
+	tx := global.GCN_DB.Begin()
+	defer tx.Commit()
+	// 查询中间表
+	var temp model.UserFollow
+	if errors.Is(tx.Where("user_id = ? AND follow_id =?", userFollow.UserID, userFollow.FollowID).First(&temp).Error, gorm.ErrRecordNotFound) {
+		// 查询不到记录，说明还没关注
+		if !userFollow.Status {
+			return errors.New("前端参数输入错误")
+		}
+		// 插入数据
+		tx.Create(userFollow)
+	} else {
+		// 查询到记录，检测status
+		if temp.Status != userFollow.Status {
+			tx.Model(&temp).Update("status", userFollow.Status)
+			// 操作用户表
+			var tempUser model.User
+			if userFollow.Status {
+				// 用户关注数+1
+				tx.First(&tempUser, userFollow.UserID)
+				tempUser.FollowCount = tempUser.FollowCount + 1
+				tx.Save(tempUser)
+				// 被关注用户粉丝数+1
+				tx.First(&tempUser, userFollow.FollowID)
+				tempUser.FollowCount = tempUser.FollowedCount + 1
+				tx.Save(tempUser)
+			} else {
+				// 用户关注数-1
+				tx.First(&tempUser, userFollow.UserID)
+				tempUser.FollowCount = tempUser.FollowCount - 1
+				tx.Save(tempUser)
+				// 被关注用户粉丝数-1
+				tx.First(&tempUser, userFollow.FollowID)
+				tempUser.FollowCount = tempUser.FollowedCount - 1
+				tx.Save(tempUser)
+			}
+		} else {
+			return errors.New("前端参数输入错误")
+		}
+	}
+	return nil
 }

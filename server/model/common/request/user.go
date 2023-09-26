@@ -30,3 +30,10 @@ type UpdateUserInformationRequest struct {
 	Phone    string `json:"phone"`
 	Email    string `json:"email"`
 }
+
+// FollowRequest //
+// 关注或者取关的请求
+type FollowRequest struct {
+	UserID   uint `json:"userId"`
+	IsFollow bool `json:"isFollow"`
+}

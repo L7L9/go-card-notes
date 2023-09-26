@@ -58,3 +58,26 @@ func (api *UserApi) UpdateUserInformation(c *gin.Context) {
 	}
 	response.SuccessWithDetail(c, "修改信息成功", newUser)
 }
+
+// FollowOrNot //
+// 关注或者取消关注
+func (api *UserApi) FollowOrNot(c *gin.Context) {
+	var followRequest request.FollowRequest
+	err := c.ShouldBindJSON(&followRequest)
+	if err != nil {
+		response.FailedWithMsg(c, err.Error())
+		return
+	}
+
+	userID := utils.GetUserID(c)
+	userFollow := &model.UserFollow{
+		UserID:   userID,
+		FollowID: followRequest.UserID,
+		Status:   followRequest.IsFollow,
+	}
+	if err = userService.Follow(userFollow); err != nil {
+		response.FailedWithMsg(c, "关注失败")
+		return
+	}
+	response.SuccessWithMsg(c, "操作成功")
+}
