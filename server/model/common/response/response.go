@@ -9,8 +9,8 @@ import (
 // Response //
 // 普通响应的结构体
 type Response struct {
-	StatusCode int         `json:"status_code"`
-	StatusMsg  string      `json:"status_msg"`
+	StatusCode int         `json:"statusCode"`
+	StatusMsg  string      `json:"statusMsg"`
 	Data       interface{} `json:"data"`
 }
 

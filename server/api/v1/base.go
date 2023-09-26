@@ -22,9 +22,8 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 
 	user := &model.User{
 		Username: signUpRequest.Username,
-		Password: signUpRequest.Nickname,
+		Password: signUpRequest.Password,
 		Nickname: signUpRequest.Nickname,
-		Phone:    signUpRequest.Phone,
 	}
 	if err = baseService.SignUp(user); err != nil {
 		response.FailedWithMsg(c, err.Error())

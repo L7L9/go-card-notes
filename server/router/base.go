@@ -13,7 +13,7 @@ type BaseRouter struct{}
 func (r *BaseRouter) Initialize(fatherGroup *gin.RouterGroup) {
 	baseApi := v1.ApiOuter.BaseApi
 
-	baseRouter := fatherGroup.Group("/base")
+	baseRouter := fatherGroup.Group("/user")
 	{
 		baseRouter.POST("/signIn/", baseApi.SignIn)
 		baseRouter.POST("/signUp/", baseApi.SignUp)
