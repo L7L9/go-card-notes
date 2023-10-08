@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"lqlzzz/go-card-notes/model"
+	"lqlzzz/go-card-notes/model/common/dto"
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
 	"lqlzzz/go-card-notes/utils"
@@ -80,4 +81,46 @@ func (api *UserApi) FollowOrNot(c *gin.Context) {
 		return
 	}
 	response.SuccessWithMsg(c, "操作成功")
+}
+
+// GetFollowerList //
+// 获取粉丝列表
+func (api *UserApi) GetFollowerList(c *gin.Context) {
+	// 获取用户id
+	userID := utils.GetUserID(c)
+	if userList, err := userService.GetFollowerList(userID); err != nil {
+		response.FailedWithMsg(c, "获取粉丝列表失败")
+	} else {
+		var getUserListResponse response.GetUserListResponse
+		for _, v := range userList {
+			userInfo := dto.UserInfo{
+				Username: v.Username,
+				Nickname: v.Nickname,
+				HeadImg:  v.HeadImg,
+			}
+			getUserListResponse.UserList = append(getUserListResponse.UserList, userInfo)
+		}
+		response.SuccessWithDetail(c, "操作成功", getUserListResponse)
+	}
+}
+
+// GetFollowList //
+// 获取关注列表
+func (api *UserApi) GetFollowList(c *gin.Context) {
+	// 获取用户id
+	userID := utils.GetUserID(c)
+	if userList, err := userService.GetFollowList(userID); err != nil {
+		response.FailedWithMsg(c, "获取粉丝列表失败")
+	} else {
+		var getUserListResponse response.GetUserListResponse
+		for _, v := range userList {
+			userInfo := dto.UserInfo{
+				Username: v.Username,
+				Nickname: v.Nickname,
+				HeadImg:  v.HeadImg,
+			}
+			getUserListResponse.UserList = append(getUserListResponse.UserList, userInfo)
+		}
+		response.SuccessWithDetail(c, "操作成功", getUserListResponse)
+	}
 }
