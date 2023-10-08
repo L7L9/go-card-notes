@@ -92,3 +92,39 @@ func (service *UserService) Follow(userFollow *model.UserFollow) error {
 	}
 	return nil
 }
+
+// GetFollowerList //
+// 获取粉丝
+func (service *UserService) GetFollowerList(userID uint) ([]model.User, error) {
+	// 定义管道
+	var userFollow []model.UserFollow
+	err := global.GCN_DB.Where("follow_id = ?", userID).Find(userFollow).Error
+	if err != nil {
+		return nil, errors.New("数据库层面出错")
+	}
+	var result []model.User
+	for _, v := range userFollow {
+		var user model.User
+		global.GCN_DB.Find(&user, v)
+		result = append(result, user)
+	}
+	return result, nil
+}
+
+// GetFollowList //
+// 获取粉丝
+func (service *UserService) GetFollowList(userID uint) ([]model.User, error) {
+	// 定义管道
+	var userFollow []model.UserFollow
+	err := global.GCN_DB.Where("user_id = ?", userID).Find(userFollow).Error
+	if err != nil {
+		return nil, errors.New("数据库层面出错")
+	}
+	var result []model.User
+	for _, v := range userFollow {
+		var user model.User
+		global.GCN_DB.Find(&user, v)
+		result = append(result, user)
+	}
+	return result, nil
+}
