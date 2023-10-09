@@ -10,6 +10,7 @@ import (
 // initialize viper config
 func InitViper() *viper.Viper {
 	v := viper.New()
+	v.AddConfigPath("./")
 
 	// 设置配置文件名字和类型
 	v.SetConfigName("config.yaml")
