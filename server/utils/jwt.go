@@ -50,7 +50,7 @@ func (j *Jwt) GenerateClaims(uuid uuid.UUID, userId uint, roleId uint, username 
 // 创建令牌
 func (j *Jwt) GenerateToken(claims *SystemClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SigningString()
+	return token.SignedString(j.SigningKey)
 }
 
 // ParseToken //
