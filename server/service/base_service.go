@@ -28,9 +28,6 @@ func (service *BaseService) SignUp(user *model.User) error {
 // SignIn //
 // 登录
 func (service *BaseService) SignIn(user *model.User) (*model.User, error) {
-	// 处理password
-	user.Password = utils.HashEncrypt(user.Password)
-
 	var loginUser model.User
 	// 查找有无该用户
 	if err := global.GCN_DB.Where("username = ?", user.Username).First(&loginUser).Error; err != nil {
