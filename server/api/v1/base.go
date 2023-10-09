@@ -27,8 +27,9 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 	}
 	if err = baseService.SignUp(user); err != nil {
 		response.FailedWithMsg(c, err.Error())
+		return
 	}
-	response.SuccessWithMsg(c, "登录成功")
+	response.SuccessWithMsg(c, "注册成功")
 }
 
 // SignIn //
@@ -48,6 +49,7 @@ func (api *BaseApi) SignIn(c *gin.Context) {
 
 	if user, err = baseService.SignIn(user); err != nil {
 		response.FailedWithMsg(c, err.Error())
+		return
 	}
 
 	// 签发token
