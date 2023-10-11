@@ -33,19 +33,10 @@ func (service *UserService) ChangePassword(user *model.User, newPassword string)
 // UpdateUserInformation //
 // 修改用户信息
 func (service *UserService) UpdateUserInformation(user *model.User) (*model.User, error) {
-	var temp model.User
-	err := global.GCN_DB.Where("id = ?", user.ID).First(user).Error
-	if err != nil {
+	if err := global.GCN_DB.Where("id = ?", user.ID).Updates(user).Error; err != nil {
 		return nil, err
 	}
-	temp.Nickname = user.Nickname
-	temp.Email = user.Email
-	temp.Phone = user.Phone
-	temp.HeadImg = user.HeadImg
-	if err = global.GCN_DB.Save(&temp).Error; err != nil {
-		return nil, err
-	}
-	return &temp, nil
+	return user, nil
 }
 
 func (service *UserService) Follow(userFollow *model.UserFollow) error {
