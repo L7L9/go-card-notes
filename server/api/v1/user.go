@@ -76,7 +76,7 @@ func (api *UserApi) FollowOrNot(c *gin.Context) {
 		FollowID: followRequest.UserID,
 		Status:   followRequest.IsFollow,
 	}
-	if err = userService.Follow(userFollow); err != nil {
+	if err = userService.OperateFollow(userFollow); err != nil {
 		response.FailedWithMsg(c, "关注失败")
 		return
 	}

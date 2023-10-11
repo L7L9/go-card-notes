@@ -39,7 +39,9 @@ func (service *UserService) UpdateUserInformation(user *model.User) (*model.User
 	return user, nil
 }
 
-func (service *UserService) Follow(userFollow *model.UserFollow) error {
+// OperateFollow //
+// 关注or取消关注
+func (service *UserService) OperateFollow(userFollow *model.UserFollow) error {
 	// 开启事务
 	tx := global.GCN_DB.Begin()
 	defer tx.Commit()
@@ -56,31 +58,34 @@ func (service *UserService) Follow(userFollow *model.UserFollow) error {
 		// 查询到记录，检测status
 		if temp.Status != userFollow.Status {
 			tx.Model(&temp).Update("status", userFollow.Status)
-			// 操作用户表
-			var tempUser model.User
-			if userFollow.Status {
-				// 用户关注数+1
-				tx.First(&tempUser, userFollow.UserID)
-				tempUser.FollowCount = tempUser.FollowCount + 1
-				tx.Save(tempUser)
-				// 被关注用户粉丝数+1
-				tx.First(&tempUser, userFollow.FollowID)
-				tempUser.FollowCount = tempUser.FollowedCount + 1
-				tx.Save(tempUser)
-			} else {
-				// 用户关注数-1
-				tx.First(&tempUser, userFollow.UserID)
-				tempUser.FollowCount = tempUser.FollowCount - 1
-				tx.Save(tempUser)
-				// 被关注用户粉丝数-1
-				tx.First(&tempUser, userFollow.FollowID)
-				tempUser.FollowCount = tempUser.FollowedCount - 1
-				tx.Save(tempUser)
-			}
 		} else {
 			return errors.New("前端参数输入错误")
 		}
 	}
+
+	// 操作用户表
+	var tempUser1 model.User
+	var tempUser2 model.User
+	if userFollow.Status {
+		// 用户关注数+1
+		tx.First(&tempUser1, userFollow.UserID)
+		tempUser1.FollowCount = tempUser1.FollowCount + 1
+		tx.Save(tempUser1)
+		// 被关注用户粉丝数+1
+		tx.First(&tempUser2, userFollow.FollowID)
+		tempUser2.FollowedCount = tempUser2.FollowedCount + 1
+		tx.Save(tempUser2)
+	} else {
+		// 用户关注数-1
+		tx.First(&tempUser1, userFollow.UserID)
+		tempUser1.FollowCount = tempUser1.FollowCount - 1
+		tx.Save(tempUser1)
+		// 被关注用户粉丝数-1
+		tx.First(&tempUser2, userFollow.FollowID)
+		tempUser2.FollowedCount = tempUser2.FollowedCount - 1
+		tx.Save(tempUser2)
+	}
+
 	return nil
 }
 
