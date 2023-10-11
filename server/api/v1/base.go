@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
@@ -24,6 +25,7 @@ func (api *BaseApi) SignUp(c *gin.Context) {
 		Username: signUpRequest.Username,
 		Password: signUpRequest.Password,
 		Nickname: signUpRequest.Nickname,
+		UUID:     uuid.NewV4(),
 	}
 	if err = baseService.SignUp(user); err != nil {
 		response.FailedWithMsg(c, err.Error())
