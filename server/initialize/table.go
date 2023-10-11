@@ -12,7 +12,9 @@ import (
 func InitDbTable() {
 	err := global.GCN_DB.AutoMigrate(
 		&model.User{},
+		&model.UserFollow{},
 		&model.Role{},
+		&model.UserRole{},
 		&model.Note{},
 		&model.Tag{},
 	)
