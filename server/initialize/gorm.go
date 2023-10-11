@@ -12,7 +12,9 @@ import (
 func InitGorm() *gorm.DB {
 	mysqlConfig := global.GCN_CONFIG.Mysql
 
-	db, err := gorm.Open(mysql.Open(mysqlConfig.Dsn()), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(mysqlConfig.Dsn()), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 	if err != nil {
 		global.GCN_LOGGER.Error("failed to connect database: ", zap.Error(err))
 		return nil
