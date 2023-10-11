@@ -26,6 +26,7 @@ system:
   addr: 8888
   admin-account: admin
   admin-password:
+  #记得加斜杠(如果要设置前缀的话)
   router-prefix: ""
 
 #ipfs配置
