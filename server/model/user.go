@@ -22,7 +22,7 @@ type User struct {
 	FollowedCount int       `json:"followedCount" gorm:"default:0;NOT NULL;comment:'粉丝数'"`
 	Introduction  string    `json:"introduction" gorm:"default:'';NOT NULL;comment:'简介'"`
 	BaseRoleID    uint      `json:"baseRoleID" gorm:"default:3;NOT NULL;comment:'角色id'"`
-	Roles         []Role    `json:"roles" gorm:"many2many:'gcn_user_role';"`
+	Roles         []Role    `json:"roles" gorm:"many2many:gcn_user_role;"`
 	Status        int       `json:"status" gorm:"default:1;NOT NULL;comment:'用户状态:1=>正常;2=>注销;3=>冻结'"`
 }
 
