@@ -13,13 +13,13 @@ type CasbinService struct {
 }
 
 var (
-	enforcer casbin.CachedEnforcer
+	enforcer *casbin.CachedEnforcer
 	once     sync.Once
 )
 
 // GetCasbin //
 // 获取Casbin验权的结构体
-func (service *CasbinService) GetCasbin() casbin.CachedEnforcer {
+func (service *CasbinService) GetCasbin() *casbin.CachedEnforcer {
 	// 使用once懒加载,
 	once.Do(func() {
 		// 加载gorm设配器
@@ -53,7 +53,7 @@ func (service *CasbinService) GetCasbin() casbin.CachedEnforcer {
 			return
 		}
 		// 初始化enforcer
-		enforcer, _ := casbin.NewCachedEnforcer(model, adaptor)
+		enforcer, _ = casbin.NewCachedEnforcer(model, adaptor)
 		// 加载策略Policy
 		_ = enforcer.LoadPolicy()
 	})
