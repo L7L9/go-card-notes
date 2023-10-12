@@ -8,6 +8,7 @@ import (
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
 	"lqlzzz/go-card-notes/utils"
+	"strconv"
 )
 
 type UserApi struct {
@@ -122,5 +123,18 @@ func (api *UserApi) GetFollowList(c *gin.Context) {
 			getUserListResponse.UserList = append(getUserListResponse.UserList, userInfo)
 		}
 		response.SuccessWithDetail(c, "操作成功", getUserListResponse)
+	}
+}
+
+// GetUserById //
+// 通过id获取user具体信息
+func (api *UserApi) GetUserById(c *gin.Context) {
+	idStr := c.Param("id")
+	idUint64, _ := strconv.ParseUint(idStr, 10, 64)
+	id := uint(idUint64)
+	if user, err := userService.GetUserById(id); err != nil {
+		response.FailedWithMsg(c, "查询失败")
+	} else {
+		response.SuccessWithDetail(c, "查询成功", user)
 	}
 }

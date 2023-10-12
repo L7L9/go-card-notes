@@ -94,14 +94,14 @@ func (service *UserService) OperateFollow(userFollow *model.UserFollow) error {
 func (service *UserService) GetFollowerList(userID uint) ([]model.User, error) {
 	// 定义管道
 	var userFollow []model.UserFollow
-	err := global.GCN_DB.Where("follow_id = ?", userID).Find(userFollow).Error
+	err := global.GCN_DB.Where("follow_id = ?", userID).Find(&userFollow).Error
 	if err != nil {
 		return nil, errors.New("数据库层面出错")
 	}
 	var result []model.User
 	for _, v := range userFollow {
 		var user model.User
-		global.GCN_DB.Find(&user, v)
+		global.GCN_DB.Find(&user, v.UserID)
 		result = append(result, user)
 	}
 	return result, nil
@@ -112,15 +112,25 @@ func (service *UserService) GetFollowerList(userID uint) ([]model.User, error) {
 func (service *UserService) GetFollowList(userID uint) ([]model.User, error) {
 	// 定义管道
 	var userFollow []model.UserFollow
-	err := global.GCN_DB.Where("user_id = ?", userID).Find(userFollow).Error
+	err := global.GCN_DB.Where("user_id = ?", userID).Find(&userFollow).Error
 	if err != nil {
 		return nil, errors.New("数据库层面出错")
 	}
 	var result []model.User
 	for _, v := range userFollow {
 		var user model.User
-		global.GCN_DB.Find(&user, v)
+		global.GCN_DB.Find(&user, v.FollowID)
 		result = append(result, user)
 	}
 	return result, nil
+}
+
+// GetUserById //
+// 通过id获取用户信息
+func (service *UserService) GetUserById(id uint) (*model.User, error) {
+	var user model.User
+	if err := global.GCN_DB.Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

@@ -20,5 +20,6 @@ func (router *UserRouter) Initialize(fatherRouter *gin.RouterGroup) {
 		userRouter.POST("/operateFollow/", userApi.FollowOrNot)
 		userRouter.GET("/getFollowList/", userApi.GetFollowList)
 		userRouter.GET("/getFollowerList/", userApi.GetFollowerList)
+		userRouter.GET("/getUserInformation/:id", userApi.GetUserById)
 	}
 }
