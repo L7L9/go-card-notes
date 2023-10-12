@@ -44,7 +44,7 @@ func (service *CasbinService) GetCasbin() *casbin.CachedEnforcer {
 		e = some(where (p.eft == allow))
 
 		[matchers]
-		m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act && keyMatch2(r.obj,p.obj)
+		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
 		`
 		// 加载模型
 		model, err := model2.NewModelFromString(modelText)
