@@ -15,9 +15,9 @@ func (router *UserRouter) Initialize(fatherRouter *gin.RouterGroup) {
 
 	userRouter := fatherRouter.Group("/user")
 	{
-		userRouter.PUT("/changePassword/", userApi.ChangePassword)
-		userRouter.PUT("/updateUserInformation/", userApi.UpdateUserInformation)
-		userRouter.POST("/operateFollow/", userApi.FollowOrNot)
+		userRouter.POST("/changePassword/", userApi.ChangePassword)
+		userRouter.POST("/updateInformation/", userApi.UpdateUserInformation)
+		userRouter.POST("/follow/:id", userApi.FollowOrNot)
 		userRouter.GET("/getFollowList/", userApi.GetFollowList)
 		userRouter.GET("/getFollowerList/", userApi.GetFollowerList)
 		userRouter.GET("/getUserInformation/:id", userApi.GetUserById)

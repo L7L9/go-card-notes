@@ -64,20 +64,16 @@ func (api *UserApi) UpdateUserInformation(c *gin.Context) {
 // FollowOrNot //
 // 关注或者取消关注
 func (api *UserApi) FollowOrNot(c *gin.Context) {
-	var followRequest request.FollowRequest
-	err := c.ShouldBindJSON(&followRequest)
-	if err != nil {
-		response.FailedWithMsg(c, err.Error())
-		return
-	}
+	idStr := c.Param("id")
+	idUint64, _ := strconv.ParseUint(idStr, 10, 64)
+	operateID := uint(idUint64)
 
 	userID := utils.GetUserID(c)
 	userFollow := &model.UserFollow{
 		UserID:   userID,
-		FollowID: followRequest.UserID,
-		Status:   followRequest.IsFollow,
+		FollowID: operateID,
 	}
-	if err = userService.OperateFollow(userFollow); err != nil {
+	if err := userService.OperateFollow(userFollow); err != nil {
 		response.FailedWithMsg(c, "关注失败")
 		return
 	}
