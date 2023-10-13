@@ -13,7 +13,7 @@ type User struct {
 	Username      string    `json:"username" gorm:"NOT NULL;comment:'用户名'"`
 	Password      string    `json:"-" gorm:"NOT NULL;comment:'用户密码'"`
 	Nickname      string    `json:"nickname" gorm:"NOT NULL;comment:'昵称'"`
-	HeadImg       string    `json:"headImg" gorm:"default:0;NOT NULL;comment:'头像图片'"` // TODO
+	HeadImg       string    `json:"headImg" gorm:"default:'';NOT NULL;comment:'头像图片'"` // TODO
 	Phone         string    `json:"phone" gorm:"default:'';NOT NULL;comment:'手机号'"`
 	Email         string    `json:"email" gorm:"default:'';NOT NULL;comment:'邮箱'"`
 	Points        int       `json:"points" gorm:"default:0;NOT NULL;comment:'用户积分'"`
