@@ -1,13 +1,16 @@
 package v1
 
 import (
+	"encoding/base64"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"io"
 	"lqlzzz/go-card-notes/model"
 	"lqlzzz/go-card-notes/model/common/dto"
 	"lqlzzz/go-card-notes/model/common/request"
 	"lqlzzz/go-card-notes/model/common/response"
 	"lqlzzz/go-card-notes/utils"
+	"mime/multipart"
 	"strconv"
 )
 
@@ -45,11 +48,25 @@ func (api *UserApi) UpdateUserInformation(c *gin.Context) {
 		return
 	}
 
+	// 将获取到的图片文件转为base64字符串
+	var picture string
+	if updateUserInformationRequest.HeadImg != nil {
+		file, err := updateUserInformationRequest.HeadImg.Open()
+		defer func(file multipart.File) {
+			_ = file.Close()
+		}(file)
+		pictureData, err := io.ReadAll(file)
+		if err != nil {
+			response.FailedWithMsg(c, "上传照片失败")
+			return
+		}
+		picture = "data:image/jpeg;base64," + base64.StdEncoding.EncodeToString(pictureData)
+	}
 	userID := utils.GetUserID(c)
 	user := &model.User{
 		Model:    gorm.Model{ID: userID},
 		Nickname: updateUserInformationRequest.Nickname,
-		HeadImg:  updateUserInformationRequest.HeadImg,
+		HeadImg:  picture,
 		Phone:    updateUserInformationRequest.Phone,
 		Email:    updateUserInformationRequest.Email,
 	}
