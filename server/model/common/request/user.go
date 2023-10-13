@@ -1,5 +1,7 @@
 package request
 
+import "mime/multipart"
+
 // SignUpRequest //
 // 注册请求
 type SignUpRequest struct {
@@ -25,10 +27,10 @@ type ChangePasswordRequest struct {
 // UpdateUserInformationRequest //
 // 修改用户信息请求
 type UpdateUserInformationRequest struct {
-	Nickname string `json:"nickname"`
-	HeadImg  string `json:"headImg"`
-	Phone    string `json:"phone"`
-	Email    string `json:"email"`
+	Nickname string                `form:"nickname" json:"nickname"`
+	HeadImg  *multipart.FileHeader `form:"headImg" json:"headImg"`
+	Phone    string                `form:"phone" json:"phone"`
+	Email    string                `form:"email" json:"email"`
 }
 
 // FollowRequest //
