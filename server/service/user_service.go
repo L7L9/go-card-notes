@@ -49,18 +49,11 @@ func (service *UserService) OperateFollow(userFollow *model.UserFollow) error {
 	var temp model.UserFollow
 	if errors.Is(tx.Where("user_id = ? AND follow_id =?", userFollow.UserID, userFollow.FollowID).First(&temp).Error, gorm.ErrRecordNotFound) {
 		// 查询不到记录，说明还没关注
-		if !userFollow.Status {
-			return errors.New("前端参数输入错误")
-		}
-		// 插入数据
+		userFollow.Status = true
 		tx.Create(userFollow)
 	} else {
 		// 查询到记录，检测status
-		if temp.Status != userFollow.Status {
-			tx.Model(&temp).Update("status", userFollow.Status)
-		} else {
-			return errors.New("前端参数输入错误")
-		}
+		tx.Model(&temp).Update("status", !temp.Status)
 	}
 
 	// 操作用户表
