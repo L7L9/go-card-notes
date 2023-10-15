@@ -15,7 +15,7 @@ func InitDbTable() {
 		&model.Role{},
 		&model.UserRole{},
 		&model.Note{},
-		&model.Tag{},
+		&model.NoteGroup{},
 	)
 
 	if err != nil {
