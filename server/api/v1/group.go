@@ -5,6 +5,7 @@ import "lqlzzz/go-card-notes/service"
 type ApiGroup struct {
 	BaseApi
 	UserApi
+	NoteApi
 }
 
 // ApiOuter //
